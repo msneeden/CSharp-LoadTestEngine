@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<test>
+  <configuration>
+    <threads>10</threads>
+    <rampUp>0</rampUp>
+    <duration>60</duration>
+  </configuration>
+  <requests>
+    <request>
+      <url>http://www.targeturl.com/login.aspx</url>
+      <type>POST</type>
+      <postData>
+        <dataItem>
+          <name>form input name</name>
+          <value>form input value</value>
+        </dataItem>
+      </postData>
+    </request>
+    <request>
+      <url>http://www.targeturl.com/pageToTest.aspx</url>
+      <type>GET</type>
+    </request>
+  </requests>
+</test>
