@@ -11,8 +11,12 @@
       <type>POST</type>
       <postData>
         <dataItem>
-          <name>form input name</name>
-          <value>form input value</value>
+          <name>username</name>
+          <value>--username--</value>
+        </dataItem>
+        <dataItem>
+          <name>password</name>
+          <value>--password--</value>
         </dataItem>
       </postData>
     </request>
