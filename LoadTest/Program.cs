@@ -127,6 +127,7 @@ namespace LoadTest {
 
             CookieCollection persistCookies = new CookieCollection();
 
+            // Start the stopwatch
             var timer = new System.Diagnostics.Stopwatch();
             timer.Start();
 
@@ -137,13 +138,11 @@ namespace LoadTest {
 
                 if (requestData.requestType.ToLower() == "post") {
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    
                     StringBuilder sb = new StringBuilder();
-
                     using (StreamReader stream = new StreamReader(response.GetResponseStream())) {
                         string strLine;
                         while ((strLine = stream.ReadLine()) != null) {
-                            // Ignore blank lines
-
                             if (strLine.Length > 0)
                                 sb.Append(strLine);
                         }
@@ -153,11 +152,13 @@ namespace LoadTest {
 
                     string rawData = sb.ToString();
 
+                    // Find the inputs on the page
                     Regex filters = new Regex(@"<input.+?\/?>");
                     MatchCollection matches = filters.Matches(rawData);
                     XmlDocument xmlDoc = new XmlDocument();
                     NameValueCollection formData = new NameValueCollection();
 
+                    // Extract the name/value pairs of the input names and values
                     for (int i = 0; i < matches.Count; i++) {
                         xmlDoc.LoadXml(matches[i].Value);
 
@@ -173,7 +174,7 @@ namespace LoadTest {
                         }
                     }
 
-
+                    // Post the request
                     HttpWebRequest requestPost = (HttpWebRequest)WebRequest.Create(requestData.url);
                     byte[] byteArrayPostAttendance = Encoding.UTF8.GetBytes(Helpers.GenerateTargetRequestData(formData));
                     requestPost.ContentType = "application/x-www-form-urlencoded";
@@ -224,7 +225,7 @@ namespace LoadTest {
                 }
             }
 
-            // Stop
+            // Stop the stopwatch, write the result to the console
             timer.Stop();
             Console.WriteLine("End Transaction # {0} of {1} - {2} took {3}ms", currentTransaction, totalTransactions, requests.testData[requests.testData.Count - 1].url, timer.ElapsedMilliseconds);
         }
