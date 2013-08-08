@@ -221,7 +221,7 @@ namespace LoadTest {
                         cookieContainer.Add(cookie);
                     }
                     request.CookieContainer = cookieContainer;
-                    request.GetResponse();
+                    request.GetResponse().Close();
                 }
             }
 
